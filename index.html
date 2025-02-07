@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Srajan Gupta - Portfolio</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -43,9 +42,12 @@
         ul li {
             padding: 5px 0;
         }
+        .download-container {
+            text-align: center;
+            margin: 20px;
+        }
         .download-btn {
             display: inline-block;
-            margin-bottom: 20px;
             padding: 10px 20px;
             background-color: #007BFF;
             color: #fff;
@@ -54,18 +56,20 @@
             cursor: pointer;
         }
         .download-btn:hover {
-            background-color: #71a4d6;
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <div class="download-container">
         <button class="download-btn" onclick="downloadPDF()">Download Resume (PDF)</button>
+    </div>
+    <div class="container" id="resume-content">
         <h1>Srajan Gupta</h1>
         <p><strong>Software Engineer at Fynd</strong></p>
         <p>📍 Noida, Uttar Pradesh | 📞 +91-7837031957 | 📧 srajangupta0101@gmail.com</p>
 
-        <div class="section" id="resume-content">
+        <div class="section">
             <h2>Skills & Abilities</h2>
             <ul>
                 <li><strong>Languages:</strong> Python, Java, JavaScript, SQL, Bash</li>
@@ -120,15 +124,51 @@
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            const resumeContent = document.querySelector('.container');
+            let yOffset = 10;
+            doc.setFont("helvetica");
+            doc.setFontSize(18);
+            doc.text("Srajan Gupta - Resume", 10, yOffset);
+            yOffset += 10;
+            doc.setFontSize(12);
+            doc.text("Software Engineer at Fynd", 10, yOffset);
+            yOffset += 10;
+            doc.text("📍 Noida, Uttar Pradesh | 📞 +91-7837031957 | 📧 srajangupta0101@gmail.com", 10, yOffset);
+            yOffset += 10;
             
-            html2canvas(resumeContent, { scale: 2 }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const imgWidth = 190;
-                const imgHeight = (canvas.height * imgWidth) / canvas.width;
-                doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
-                doc.save("Srajan_Gupta_Resume.pdf");
-            });
+            function addSection(title, content) {
+                doc.setFontSize(14);
+                doc.text(title, 10, yOffset);
+                yOffset += 6;
+                doc.setFontSize(12);
+                content.forEach(line => {
+                    doc.text(line, 10, yOffset);
+                    yOffset += 6;
+                });
+                yOffset += 4;
+            }
+            
+            addSection("Skills & Abilities", [
+                "Languages: Python, Java, JavaScript, SQL, Bash",
+                "Libraries & Frameworks: Sanic, Django, Flask, Node.js, Beautiful Soup",
+                "Tools: Apache Kafka, Solr, Kubernetes, Vim, Git, Jira, Jupyter Notebook",
+                "Databases: MongoDB, Redis, Solr, MySQL, PostgreSQL",
+                "Cloud: AWS, GCP",
+                "Front-End: Vue.js, HTML, CSS, SASS"
+            ]);
+            
+            addSection("Experience", [
+                "Software Engineer, Fynd (July 2022 - Present)",
+                "- Worked on Recommendation Engine for Fynd platform.",
+                "- Improved latency by ~200ms using a queuing mechanism.",
+                "- Developed a dashboard to track conversion rates.",
+                "- Implemented model training for better recommendations.",
+                "- Enhanced Catalog Management System by fixing vulnerabilities.",
+                "Software Engineer, T-Systems ICT India Pvt. Ltd. (June 2019 - July 2022)",
+                "- Developed API endpoints using Django REST framework.",
+                "- Integrated third-party platforms with RESTful web services."
+            ]);
+            
+            doc.save("Srajan_Gupta_Resume.pdf");
         }
     </script>
 </body>
