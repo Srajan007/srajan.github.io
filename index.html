@@ -1,22 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>My Site</title>
-        <style>
-            div{
-                font-size: 30;
-                font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-                padding: 25px;
-                margin: 25px;
-                background-color: antiquewhite;
-                border-radius: 8px;
-                text-align: center;
-            }
-        </style>
-    </head>
-    <body>
-        <div>
-            <h1>Portfolio in making...</h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Srajan Gupta - Portfolio</title>
+    <style>
+        body {
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section h2 {
+            background: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        ul li {
+            padding: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Srajan Gupta</h1>
+        <p><strong>Software Engineer at Fynd</strong></p>
+        <p>📍 Noida, Uttar Pradesh | 📞 +91-7837031957 | 📧 srajangupta0101@gmail.com</p>
+
+        <div class="section">
+            <h2>Skills & Abilities</h2>
+            <ul>
+                <li><strong>Languages:</strong> Python, Java, JavaScript, SQL, Bash</li>
+                <li><strong>Libraries & Frameworks:</strong> Sanic, Django, Flask, Node.js Basics, Beautiful Soup</li>
+                <li><strong>Tools:</strong> Apache Kafka, Solr, Kubernetes, Vim, Git, Git Submodules, Jira, Jupyter Notebook</li>
+                <li><strong>Databases:</strong> MongoDB, Redis, Solr, MySQL, PostgreSQL</li>
+                <li><strong>Cloud:</strong> AWS, GCP</li>
+                <li><strong>Front-End:</strong> Vue.js Basics, HTML, CSS, SASS</li>
+            </ul>
         </div>
-    </body>
+
+        <div class="section">
+            <h2>Experience</h2>
+            <ul>
+                <li>
+                    <strong>Software Engineer, Fynd (July 2022 - Present)</strong>
+                    <ul>
+                        <li>Worked on Recommendation Engine for Fynd platform.</li>
+                        <li>Improved latency by ~200ms using a queuing mechanism.</li>
+                        <li>Developed a dashboard to track conversion rates.</li>
+                        <li>Implemented model training for better recommendations.</li>
+                        <li>Enhanced Catalog Management System by fixing vulnerabilities.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Software Engineer, T-Systems ICT India Pvt. Ltd. (June 2019 - July 2022)</strong>
+                    <ul>
+                        <li>Developed API endpoints using Django REST framework.</li>
+                        <li>Integrated third-party platforms with RESTful web services.</li>
+                        <li>Worked on various phases of SDLC, from requirement gathering to testing.</li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Education</h2>
+            <p><strong>Chandigarh University - B.E. Computer Science</strong> (July 2015 - June 2019) | GPA: 6.91</p>
+        </div>
+
+        <div class="section">
+            <h2>Projects</h2>
+            <ul>
+                <li>Recommendation System</li>
+                <li>Catalog Management System</li>
+                <li>Document Tracker</li>
+            </ul>
+        </div>
+    </div>
+</body>
 </html>
