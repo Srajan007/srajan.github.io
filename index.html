@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Srajan Gupta - Portfolio</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -19,12 +21,14 @@
             background: #fff;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
         h1, h2 {
             text-align: center;
         }
         .section {
             margin-bottom: 20px;
+            text-align: left;
         }
         .section h2 {
             background: #333;
@@ -39,15 +43,29 @@
         ul li {
             padding: 5px 0;
         }
+        .download-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .download-btn:hover {
+            background-color: #71a4d6;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <button class="download-btn" onclick="downloadPDF()">Download Resume (PDF)</button>
         <h1>Srajan Gupta</h1>
         <p><strong>Software Engineer at Fynd</strong></p>
         <p>📍 Noida, Uttar Pradesh | 📞 +91-7837031957 | 📧 srajangupta0101@gmail.com</p>
 
-        <div class="section">
+        <div class="section" id="resume-content">
             <h2>Skills & Abilities</h2>
             <ul>
                 <li><strong>Languages:</strong> Python, Java, JavaScript, SQL, Bash</li>
@@ -97,5 +115,21 @@
             </ul>
         </div>
     </div>
+
+    <script>
+        function downloadPDF() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const resumeContent = document.querySelector('.container');
+            
+            html2canvas(resumeContent, { scale: 2 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/png');
+                const imgWidth = 190;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                doc.addImage(imgData, 'PNG', 10, 10, imgWidth, imgHeight);
+                doc.save("Srajan_Gupta_Resume.pdf");
+            });
+        }
+    </script>
 </body>
 </html>
