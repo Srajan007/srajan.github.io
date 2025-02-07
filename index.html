@@ -124,50 +124,93 @@
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            let yOffset = 10;
-            doc.setFont("helvetica");
-            doc.setFontSize(18);
-            doc.text("Srajan Gupta - Resume", 10, yOffset);
-            yOffset += 10;
-            doc.setFontSize(12);
-            doc.text("Software Engineer at Fynd", 10, yOffset);
-            yOffset += 10;
-            doc.text("📍 Noida, Uttar Pradesh | 📞 +91-7837031957 | 📧 srajangupta0101@gmail.com", 10, yOffset);
-            yOffset += 10;
-            
-            function addSection(title, content) {
-                doc.setFontSize(14);
-                doc.text(title, 10, yOffset);
-                yOffset += 6;
-                doc.setFontSize(12);
-                content.forEach(line => {
-                    doc.text(line, 10, yOffset);
-                    yOffset += 6;
-                });
-                yOffset += 4;
+            const resumeContent = document.getElementById('resume-content');
+
+            // Function to recursively add elements to the PDF
+            function addElementToPDF(element, x, y, maxWidth) {
+                const fontSize = 12;  // Default font size
+                doc.setFontSize(fontSize);
+
+                if (element.nodeType === Node.TEXT_NODE) {
+                    // Handle text nodes
+                    const text = element.textContent.trim();
+                    if (text) {
+                        // Use splitTextToSize to handle text wrapping
+                        const lines = doc.splitTextToSize(text, maxWidth);
+                        lines.forEach(line => {
+                            doc.text(line, x, y);
+                            y += fontSize / 3; // Adjust line spacing based on font size
+                        });
+                    }
+                } else if (element.nodeType === Node.ELEMENT_NODE) {
+                    // Handle element nodes
+                    const tag = element.tagName.toLowerCase();
+
+                    if (tag === 'h1') {
+                        doc.setFontSize(24);
+                        doc.setFont('helvetica', 'bold');
+                        const text = element.textContent.trim();
+                         // Center the text
+                        const textWidth = doc.getTextWidth(text);
+                        x = (doc.internal.pageSize.getWidth() - textWidth) / 2;
+                        doc.text(text, x, y);
+                        y += 10;
+                        doc.setFont('helvetica', 'normal'); // Reset font
+                    }
+                    else if (tag === 'h2') {
+                        doc.setFontSize(16);
+                        doc.setFont('helvetica', 'bold');
+                        doc.setTextColor(255,255,255)
+                        doc.setFillColor(51,51,51)
+                        doc.rect(5, y-8, 200, 12, 'F')
+                        doc.text(element.textContent.trim(), 10, y);
+                        y += 10;
+                        doc.setFont('helvetica', 'normal'); // Reset font
+                        doc.setTextColor(0,0,0)
+                    } else if (tag === 'p') {
+                        doc.setFontSize(12);
+                        const text = element.textContent.trim();
+                        const lines = doc.splitTextToSize(text, maxWidth);
+                            lines.forEach(line => {
+                                doc.text(line, x, y);
+                                y += fontSize / 3;
+                            });
+                        y += 5;
+                    } else if (tag === 'ul') {
+                        // Handle unordered lists
+                        const listItems = element.children;
+                        for (let i = 0; i < listItems.length; i++) {
+                            const listItem = listItems[i];
+                            if (listItem.tagName.toLowerCase() === 'li') {
+                                // Add a bullet point
+                                doc.text("•", x, y);
+                                // Add the list item text
+                                addElementToPDF(listItem, x + 5, y, maxWidth - 5); // Indent the list item
+                                // Increase y position for the next item (adjust as needed)
+                                y += fontSize / 3 + 2;
+                            }
+                        }
+                        y += 5
+                    } else {
+                        // Recursively process child nodes
+                        for (let i = 0; i < element.childNodes.length; i++) {
+                            y = addElementToPDF(element.childNodes[i], x, y, maxWidth);
+                        }
+                    }
+                }
+
+                return y;
             }
-            
-            addSection("Skills & Abilities", [
-                "Languages: Python, Java, JavaScript, SQL, Bash",
-                "Libraries & Frameworks: Sanic, Django, Flask, Node.js, Beautiful Soup",
-                "Tools: Apache Kafka, Solr, Kubernetes, Vim, Git, Jira, Jupyter Notebook",
-                "Databases: MongoDB, Redis, Solr, MySQL, PostgreSQL",
-                "Cloud: AWS, GCP",
-                "Front-End: Vue.js, HTML, CSS, SASS"
-            ]);
-            
-            addSection("Experience", [
-                "Software Engineer, Fynd (July 2022 - Present)",
-                "- Worked on Recommendation Engine for Fynd platform.",
-                "- Improved latency by ~200ms using a queuing mechanism.",
-                "- Developed a dashboard to track conversion rates.",
-                "- Implemented model training for better recommendations.",
-                "- Enhanced Catalog Management System by fixing vulnerabilities.",
-                "Software Engineer, T-Systems ICT India Pvt. Ltd. (June 2019 - July 2022)",
-                "- Developed API endpoints using Django REST framework.",
-                "- Integrated third-party platforms with RESTful web services."
-            ]);
-            
+
+            // Initial position and maximum width for the text
+            let x = 10;
+            let y = 10;
+            const maxWidth = 190; // Adjust as needed
+
+            // Start adding content to the PDF
+            addElementToPDF(resumeContent, x, y, maxWidth);
+
+            // Save the PDF
             doc.save("Srajan_Gupta_Resume.pdf");
         }
     </script>
